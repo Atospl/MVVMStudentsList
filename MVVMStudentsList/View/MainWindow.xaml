@@ -11,36 +11,135 @@
         <vm:MainWindowViewModel x:Name="mainVM"/>
     </Window.DataContext>
 
-    <StackPanel>
-        <Canvas>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
+    <!--<StackPanel Background="Beige">-->
+    <Grid>
+        <Grid.Resources>
+            <Style TargetType="Button">
+                <Setter Property="Margin" Value="5,5,5,5" />
+                <Setter Property="Background" Value="Aquamarine"/>
+                <Setter Property="Height" Value="70"/>
+                <Setter Property="FontSize" Value="20"/>
+            </Style>
 
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
+            <Style TargetType="TextBox">
+                <Setter Property="Margin" Value="5,5,5,5" />
+            </Style>
 
-                <Label Grid.Column="2" Grid.Row="1">Text</Label>
-            </Grid>
-        </Canvas>
+            <Style TargetType="ComboBox">
+                <Setter Property="Margin" Value="5,5,5,5"/>
+            </Style>
+
+            <Style TargetType="TextBlock">
+                <Setter Property="Width" Value="105"/>
+            </Style>
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
         
-        <Canvas>
-            <Viewbox>
-                <ListBox ItemsSource="{Binding Students}"></ListBox>
-            </Viewbox>
-        </Canvas>
-
-        <Grid>
+        <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Grid.Resources>
+
+            </Grid.Resources>
+
+            <Label Grid.Row="0" Grid.Column="0" HorizontalContentAlignment="Right">Grupa:</Label>
+            <ComboBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2">
+                <ComboBoxItem>temp</ComboBoxItem>
+            </ComboBox>
+            <Button Grid.Row="0" Grid.Column="3" Grid.RowSpan="2">Filtruj</Button>
+            <Button Grid.Row="0" Grid.Column="4" Grid.RowSpan="2">Wyczyść</Button>
+
+            <Label Grid.Row="1" Grid.Column="0" HorizontalContentAlignment="Right">Miasto:</Label>
+            <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" MaxLines="1" TextWrapping="NoWrap" MaxLength="30"></TextBox>
+
         </Grid>
-    </StackPanel>
+
+        <ListBox Grid.Row="1" ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding Students}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="0,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                        </Grid.ColumnDefinitions>
+                        <Viewbox Stretch="Fill"  Grid.Column="0">
+                            <TextBlock Grid.Column="0" Text="{Binding Path=FirstName}" />
+                        </Viewbox>
+                        <Viewbox Stretch="Fill"  Grid.Column="1">
+                            <TextBlock Grid.Column="1" Text="{Binding Path=LastName}" />
+                        </Viewbox>
+
+                        <Viewbox Stretch="Fill" Grid.Column="2">
+                            <TextBlock Grid.Column="2" Text="{Binding Path=BirthPlace}"/>
+                        </Viewbox>
+
+                        <Viewbox Stretch="Fill"  Grid.Column="3">
+                            <TextBlock Grid.Column="3" Text="{Binding Path=IndexNo}"/>
+                        </Viewbox>
+
+                        <Viewbox Stretch="Fill"  Grid.Column="4">
+                            <TextBlock Grid.Column="4" Text="{Binding Path=Group}"/>
+                        </Viewbox>
+
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalContentAlignment="Right">Grupa:</Label>
+            <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalContentAlignment="Right">Imie:</Label>
+            <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" HorizontalContentAlignment="Right">Nazwisko:</Label>
+            <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" HorizontalContentAlignment="Right">Miejsce urodzenia:</Label>
+            <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" HorizontalContentAlignment="Right">Data urodzenia:</Label>
+            <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" HorizontalContentAlignment="Right">Indeks:</Label>
+
+            <ComboBox Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="4"></ComboBox>
+            <TextBox Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="4" MaxLines="1" TextWrapping="NoWrap" MaxLength="30" Text="{Binding Path=FirstNameControl}"></TextBox>
+            <TextBox Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="4" MaxLines="1" TextWrapping="NoWrap" MaxLength="30" Text="{Binding Path=LastNameControl}"></TextBox>
+            <TextBox Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="4" MaxLines="1" TextWrapping="NoWrap" MaxLength="30" Text="{Binding Path=BirthPlaceControl}"></TextBox>
+            <TextBox Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="4" MaxLines="1" TextWrapping="NoWrap" MaxLength="30" Text="{Binding Path=BirthDateControl}"></TextBox>
+            <TextBox Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="4" MaxLines="1" TextWrapping="NoWrap" MaxLength="30" Text="{Binding Path=IndexControl}"></TextBox>
+
+
+        </Grid>
+
+    </Grid>
 </Window>
