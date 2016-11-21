@@ -5,8 +5,42 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MVVMStudentsList.View"
         mc:Ignorable="d"
+        xmlns:vm="clr-namespace:MVVMStudentsList.ViewModel"
         Title="MainWindow" Height="350" Width="525">
-    <Grid>
+    <Window.DataContext>
+        <vm:MainWindowViewModel x:Name="mainVM"/>
+    </Window.DataContext>
+
+    <StackPanel>
+        <Canvas>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Label Grid.Column="2" Grid.Row="1">Text</Label>
+            </Grid>
+        </Canvas>
         
-    </Grid>
+        <Canvas>
+            <Viewbox>
+                <ListBox ItemsSource="{Binding Students}"></ListBox>
+            </Viewbox>
+        </Canvas>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+        </Grid>
+    </StackPanel>
 </Window>

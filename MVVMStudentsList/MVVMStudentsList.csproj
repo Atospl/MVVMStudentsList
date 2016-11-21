@@ -72,8 +72,30 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Migrations\201611201652588_InitialCreate.cs" />
+    <Compile Include="Migrations\201611201652588_InitialCreate.Designer.cs">
+      <DependentUpon>201611201652588_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611201741106_IndeksToInt.cs" />
+    <Compile Include="Migrations\201611201741106_IndeksToInt.Designer.cs">
+      <DependentUpon>201611201741106_IndeksToInt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611202034495_nullable.cs" />
+    <Compile Include="Migrations\201611202034495_nullable.Designer.cs">
+      <DependentUpon>201611202034495_nullable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611202329505_NTRCoherency.cs" />
+    <Compile Include="Migrations\201611202329505_NTRCoherency.Designer.cs">
+      <DependentUpon>201611202329505_NTRCoherency.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Group.cs" />
+    <Compile Include="Model\Storage.cs" />
+    <Compile Include="Model\StorageContext.cs" />
     <Compile Include="Model\Student.cs" />
+    <Compile Include="RelayCommand.cs" />
+    <Compile Include="ViewModel\BaseViewModel.cs" />
+    <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -93,6 +115,18 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Migrations\201611201652588_InitialCreate.resx">
+      <DependentUpon>201611201652588_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611201741106_IndeksToInt.resx">
+      <DependentUpon>201611201741106_IndeksToInt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611202034495_nullable.resx">
+      <DependentUpon>201611202034495_nullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611202329505_NTRCoherency.resx">
+      <DependentUpon>201611202329505_NTRCoherency.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -107,9 +141,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModel\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
