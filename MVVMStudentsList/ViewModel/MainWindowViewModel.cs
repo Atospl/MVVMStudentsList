@@ -39,6 +39,8 @@ namespace MVVMStudentsList.ViewModel
             BirthPlaceControl = "biplace";
             IndexControl = "indx";
             Console.WriteLine(Students.Count());
+            //var str = Students.First().Group.Name;
+
             //DBContext.Configuration.AutoDetectChangesEnabled = true;
             //var stud = new Student("Robert", "Kwiatkowicz", "Bialystok");
             //try {

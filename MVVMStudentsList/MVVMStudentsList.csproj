@@ -92,6 +92,10 @@
     <Compile Include="Migrations\201611202329505_NTRCoherency.Designer.cs">
       <DependentUpon>201611202329505_NTRCoherency.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611251552065_timestamp.cs" />
+    <Compile Include="Migrations\201611251552065_timestamp.Designer.cs">
+      <DependentUpon>201611251552065_timestamp.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Group.cs" />
     <Compile Include="Model\Storage.cs" />
@@ -130,6 +134,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611202329505_NTRCoherency.resx">
       <DependentUpon>201611202329505_NTRCoherency.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611251552065_timestamp.resx">
+      <DependentUpon>201611251552065_timestamp.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -12,7 +12,8 @@ namespace MVVMStudentsList.Model
         [Key]
         public int IDGroup { get; set; }
         public string Name { get; set; }
-        public DateTime Stamp { get; set; }
+        [Timestamp]
+        public byte[] Stamp { get; set; }
         public virtual List<Student> Students { get; set; } 
     }
 }

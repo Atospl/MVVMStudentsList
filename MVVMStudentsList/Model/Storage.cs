@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.Entity;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,9 +12,18 @@ namespace MVVMStudentsList.Model
         public List<Student> GetStudents()
         {
             using (var db = new StorageContext())
-                return db.Students.ToList();
+            {
+                //db.Groups.Load();
+                //db.Students.Include(p => p.Group);
+                return db.Students.Include(p => p.Group).ToList();
+            }
         }
 
+        public List<Group> GetGroups()
+        {
+            using (var db = new StorageContext())
+                return db.Groups.ToList();
+        }
         //void CreateStudent(string firstName, string lastName, string indexNo, int groupId)
         //{
         //    using (var db = new StorageContext())

@@ -86,9 +86,9 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Imię" Width="150" DisplayMemberBinding="{Binding Path=FirstName}" x:Name="col1"/>
-                    <GridViewColumn Header="Nazwisko" Width="200" DisplayMemberBinding="{Binding Age}" />
-                    <GridViewColumn Header="Grupa" Width="150" DisplayMemberBinding="{Binding Mail}" />
-                    <GridViewColumn Header="Miasto" Width="150" DisplayMemberBinding="{Binding Mail}" />
+                    <GridViewColumn Header="Nazwisko" Width="200" DisplayMemberBinding="{Binding Path=LastName}" />
+                    <GridViewColumn Header="Grupa" Width="150" DisplayMemberBinding="{Binding Path=Group.Name}" />
+                    <GridViewColumn Header="Miasto" Width="150" DisplayMemberBinding="{Binding Path=BirthPlace}" />
                     <GridViewColumn Header="Indeks" Width="{Binding ElementName=helperField, Path=ActualWidth}">
                         <!--<GridViewColumn Header="Indeks" Width="{Binding ElementName=helperField, Path=ActualWidth}">-->
 

@@ -14,7 +14,8 @@ namespace MVVMStudentsList.Model
         public string BirthPlace { get; set; }
         public int? IDGroup { get; set; }
         public DateTime BirthDate { get; set; }
-        public DateTime Stamp { get; set; }
+        [Timestamp]
+        public byte[] Stamp { get; set; }
         [ForeignKey("IDGroup")]
         public virtual Group Group { get; set; }
         public Student(string firstName, string lastName, string birthPlace, int indexNr, int groupID)
