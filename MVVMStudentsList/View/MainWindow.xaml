@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:MVVMStudentsList.View"
         mc:Ignorable="d"
         xmlns:vm="clr-namespace:MVVMStudentsList.ViewModel"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" MinHeight="500" MinWidth="900"
+        Height="700" Width="900">
     <Window.DataContext>
         <vm:MainWindowViewModel x:Name="mainVM"/>
     </Window.DataContext>
@@ -17,8 +18,8 @@
             <Style TargetType="Button">
                 <Setter Property="Margin" Value="5,5,5,5" />
                 <Setter Property="Background" Value="Aquamarine"/>
-                <Setter Property="Height" Value="70"/>
-                <Setter Property="FontSize" Value="20"/>
+                <!--<Setter Property="Height" Value="70"/>
+                <Setter Property="FontSize" Value="20"/>-->
             </Style>
 
             <Style TargetType="TextBox">
@@ -38,73 +39,102 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
-        
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
 
-            <Grid.Resources>
+            <Grid Grid.Row="0" Grid.RowSpan="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
 
-            </Grid.Resources>
+                <Grid.Resources>
 
-            <Label Grid.Row="0" Grid.Column="0" HorizontalContentAlignment="Right">Grupa:</Label>
-            <ComboBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2">
-                <ComboBoxItem>temp</ComboBoxItem>
-            </ComboBox>
-            <Button Grid.Row="0" Grid.Column="3" Grid.RowSpan="2">Filtruj</Button>
-            <Button Grid.Row="0" Grid.Column="4" Grid.RowSpan="2">Wyczyść</Button>
+                </Grid.Resources>
 
-            <Label Grid.Row="1" Grid.Column="0" HorizontalContentAlignment="Right">Miasto:</Label>
-            <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" MaxLines="1" TextWrapping="NoWrap" MaxLength="30"></TextBox>
+                <Label Grid.Row="0" Grid.Column="0" HorizontalContentAlignment="Right">Grupa:</Label>
+                <ComboBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2">
+                    <ComboBoxItem>temp</ComboBoxItem>
+                </ComboBox>
+                <Button Grid.Row="0" Grid.Column="3" Grid.RowSpan="2">Filtruj</Button>
+                <Button Grid.Row="0" Grid.Column="4" Grid.RowSpan="2">Wyczyść</Button>
 
-        </Grid>
+                <Label Grid.Row="1" Grid.Column="0" HorizontalContentAlignment="Right">Miasto:</Label>
+                <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" MaxLines="1" TextWrapping="NoWrap" MaxLength="30"></TextBox>
 
-        <ListBox Grid.Row="1" ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding Students}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid Margin="0,2">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="100"/>
-                        </Grid.ColumnDefinitions>
-                        <Viewbox Stretch="Fill"  Grid.Column="0">
-                            <TextBlock Grid.Column="0" Text="{Binding Path=FirstName}" />
-                        </Viewbox>
-                        <Viewbox Stretch="Fill"  Grid.Column="1">
-                            <TextBlock Grid.Column="1" Text="{Binding Path=LastName}" />
-                        </Viewbox>
+            </Grid>
 
-                        <Viewbox Stretch="Fill" Grid.Column="2">
-                            <TextBlock Grid.Column="2" Text="{Binding Path=BirthPlace}"/>
-                        </Viewbox>
+            <ListView Grid.Row="2" Grid.RowSpan="5" ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding Students}" Height="auto">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Imię" Width="150" DisplayMemberBinding="{Binding Path=FirstName}" x:Name="col1"/>
+                    <GridViewColumn Header="Nazwisko" Width="200" DisplayMemberBinding="{Binding Age}" />
+                    <GridViewColumn Header="Grupa" Width="150" DisplayMemberBinding="{Binding Mail}" />
+                    <GridViewColumn Header="Miasto" Width="150" DisplayMemberBinding="{Binding Mail}" />
+                    <GridViewColumn Header="Indeks" Width="{Binding ElementName=helperField, Path=ActualWidth}">
+                        <!--<GridViewColumn Header="Indeks" Width="{Binding ElementName=helperField, Path=ActualWidth}">-->
 
-                        <Viewbox Stretch="Fill"  Grid.Column="3">
-                            <TextBlock Grid.Column="3" Text="{Binding Path=IndexNo}"/>
-                        </Viewbox>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Path=IndexNo}" TextDecorations="Underline" Foreground="Blue" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+            <!--<ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="0,2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Viewbox Stretch="Fill"  Grid.Column="0">
+                                <TextBlock Grid.Column="0" Text="{Binding Path=FirstName}" />
+                            </Viewbox>
+                            <Viewbox Stretch="Fill"  Grid.Column="1">
+                                <TextBlock Grid.Column="1" Text="{Binding Path=LastName}" />
+                            </Viewbox>
 
-                        <Viewbox Stretch="Fill"  Grid.Column="4">
-                            <TextBlock Grid.Column="4" Text="{Binding Path=Group}"/>
-                        </Viewbox>
+                            <Viewbox Stretch="Fill" Grid.Column="2">
+                                <TextBlock Grid.Column="2" Text="{Binding Path=BirthPlace}"/>
+                            </Viewbox>
 
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+                            <Viewbox Stretch="Fill"  Grid.Column="3">
+                            <TextBlock Grid.Column="3" Text="{Binding Path=IndexNo}" TextDecorations="Underline" Foreground="Blue" />
+                            </Viewbox>
 
-        <Grid Grid.Row="2">
+                            <Viewbox Stretch="Fill"  Grid.Column="4">
+                                <TextBlock Grid.Column="4" Text="{Binding Path=Group}"/>
+                            </Viewbox>
+
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>-->
+            </ListView>
+
+        <Grid Grid.Row="7" Grid.RowSpan="8">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
@@ -141,5 +171,23 @@
 
         </Grid>
 
+
+        <!--This is the hidden helper Grid which does the resizing -->
+        <Grid Visibility="Hidden">
+            <Grid.ColumnDefinitions>
+                <!--Width is bound to width of the first GridViewColumn -->
+                <ColumnDefinition Width="{Binding ElementName=col1, Path=ActualWidth}"/>
+                <!--Width is set to "Fill"-->
+                <ColumnDefinition Width="*"/>
+                <!--Correction Width-->
+                <ColumnDefinition Width="575"/>
+            </Grid.ColumnDefinitions>
+            <!--This is the hidden helper Field which is used to bind to, using the "Fill" column of the helper grid-->
+            <Grid Grid.Column="1" x:Name="helperField"/>
+        </Grid>
+        
+        
     </Grid>
+    
+    
 </Window>
