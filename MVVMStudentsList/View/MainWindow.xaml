@@ -13,26 +13,37 @@
     </Window.DataContext>
 
     <!--<StackPanel Background="Beige">-->
-    <Grid>
+    <Grid Background="PaleGreen">
         <Grid.Resources>
             <Style TargetType="Button">
                 <Setter Property="Margin" Value="5,5,5,5" />
                 <Setter Property="Background" Value="Aquamarine"/>
-                <!--<Setter Property="Height" Value="70"/>
-                <Setter Property="FontSize" Value="20"/>-->
+                <Setter Property="Foreground" Value="Black"></Setter>
+                <Setter Property="FontSize" Value="30"></Setter>
+                <Setter Property="Width" Value="200"></Setter>
+                <Setter Property="Height" Value="100"/>
+                <Setter Property="FontSize" Value="40"/>
             </Style>
 
             <Style TargetType="TextBox">
                 <Setter Property="Margin" Value="5,5,5,5" />
+                <Setter Property="FontSize" Value="20"></Setter>
             </Style>
 
             <Style TargetType="ComboBox">
                 <Setter Property="Margin" Value="5,5,5,5"/>
+                <Setter Property="FontSize" Value="20"></Setter>
             </Style>
 
             <Style TargetType="TextBlock">
                 <Setter Property="Width" Value="105"/>
+                <Setter Property="FontSize" Value="20"></Setter>
             </Style>
+            <Style TargetType="Label">
+                <Setter Property="FontSize" Value="20"></Setter>
+            </Style>
+
+            
         </Grid.Resources>
 
         <Grid.RowDefinitions>
@@ -69,20 +80,34 @@
                 <Grid.Resources>
 
                 </Grid.Resources>
-
+            <Viewbox Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right">
                 <Label Grid.Row="0" Grid.Column="0" HorizontalContentAlignment="Right">Grupa:</Label>
-                <ComboBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2">
+            </Viewbox>
+            <ComboBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2">
                     <ComboBoxItem>temp</ComboBoxItem>
                 </ComboBox>
+            <Viewbox StretchDirection="DownOnly"  Stretch="Uniform" Grid.Row="0" Grid.Column="3" Grid.RowSpan="2">
                 <Button Grid.Row="0" Grid.Column="3" Grid.RowSpan="2">Filtruj</Button>
-                <Button Grid.Row="0" Grid.Column="4" Grid.RowSpan="2">Wyczyść</Button>
-
+            </Viewbox>
+            <Viewbox StretchDirection="DownOnly" Stretch="Uniform" Grid.Row="0" Grid.Column="4" Grid.RowSpan="2">
+                    <Button Grid.Row="0" Grid.Column="4" Grid.RowSpan="2">Wyczyść</Button>
+            </Viewbox>
+            <Viewbox Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right">
                 <Label Grid.Row="1" Grid.Column="0" HorizontalContentAlignment="Right">Miasto:</Label>
-                <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" MaxLines="1" TextWrapping="NoWrap" MaxLength="30"></TextBox>
+            </Viewbox>
+            <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" MaxLines="1" TextWrapping="NoWrap" MaxLength="30"></TextBox>
 
             </Grid>
 
-            <ListView Grid.Row="2" Grid.RowSpan="5" ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding Students}" Height="auto">
+        <!--<Viewbox Grid.Row="2" Grid.RowSpan="5">-->
+            <ListView Grid.Row="2" Grid.RowSpan="5" ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding Students}" Height="auto" HorizontalContentAlignment="Stretch">
+
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+            </ListView.ItemContainerStyle>
+
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Imię" Width="150" DisplayMemberBinding="{Binding Path=FirstName}" x:Name="col1"/>
@@ -100,40 +125,8 @@
                     </GridViewColumn>
                 </GridView>
             </ListView.View>
-            <!--<ListView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Margin="0,2">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Viewbox Stretch="Fill"  Grid.Column="0">
-                                <TextBlock Grid.Column="0" Text="{Binding Path=FirstName}" />
-                            </Viewbox>
-                            <Viewbox Stretch="Fill"  Grid.Column="1">
-                                <TextBlock Grid.Column="1" Text="{Binding Path=LastName}" />
-                            </Viewbox>
-
-                            <Viewbox Stretch="Fill" Grid.Column="2">
-                                <TextBlock Grid.Column="2" Text="{Binding Path=BirthPlace}"/>
-                            </Viewbox>
-
-                            <Viewbox Stretch="Fill"  Grid.Column="3">
-                            <TextBlock Grid.Column="3" Text="{Binding Path=IndexNo}" TextDecorations="Underline" Foreground="Blue" />
-                            </Viewbox>
-
-                            <Viewbox Stretch="Fill"  Grid.Column="4">
-                                <TextBlock Grid.Column="4" Text="{Binding Path=Group}"/>
-                            </Viewbox>
-
-                        </Grid>
-                    </DataTemplate>
-                </ListView.ItemTemplate>-->
-            </ListView>
-
+        </ListView>
+        <!--</Viewbox>-->
         <Grid Grid.Row="7" Grid.RowSpan="8">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -153,14 +146,24 @@
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-
-            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalContentAlignment="Right">Grupa:</Label>
-            <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalContentAlignment="Right">Imie:</Label>
-            <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" HorizontalContentAlignment="Right">Nazwisko:</Label>
-            <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" HorizontalContentAlignment="Right">Miejsce urodzenia:</Label>
-            <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" HorizontalContentAlignment="Right">Data urodzenia:</Label>
-            <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" HorizontalContentAlignment="Right">Indeks:</Label>
-
+            <Viewbox  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right">
+                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">Grupa:</Label>
+            </Viewbox>
+            <Viewbox  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right">
+                <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalContentAlignment="Right">Imie:</Label>
+            </Viewbox>
+            <Viewbox  Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right">
+                <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" HorizontalContentAlignment="Right">Nazwisko:</Label>
+            </Viewbox>
+            <Viewbox  Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right">
+                <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" HorizontalContentAlignment="Right">Miejsce urodzenia:</Label>
+            </Viewbox>
+            <Viewbox  Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right">
+                <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" HorizontalContentAlignment="Right">Data urodzenia:</Label>
+            </Viewbox>
+            <Viewbox  Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right">
+                <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" HorizontalContentAlignment="Right">Indeks:</Label>
+            </Viewbox>
             <ComboBox Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="4"></ComboBox>
             <TextBox Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="4" MaxLines="1" TextWrapping="NoWrap" MaxLength="30" Text="{Binding Path=FirstNameControl}"></TextBox>
             <TextBox Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="4" MaxLines="1" TextWrapping="NoWrap" MaxLength="30" Text="{Binding Path=LastNameControl}"></TextBox>
