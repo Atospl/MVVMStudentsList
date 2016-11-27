@@ -62,6 +62,7 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
+
         </Grid.RowDefinitions>
 
             <Grid Grid.Row="0" Grid.RowSpan="2">
@@ -87,10 +88,10 @@
                     <ComboBoxItem>temp</ComboBoxItem>
                 </ComboBox>
             <Viewbox StretchDirection="DownOnly"  Stretch="Uniform" Grid.Row="0" Grid.Column="3" Grid.RowSpan="2">
-                <Button Grid.Row="0" Grid.Column="3" Grid.RowSpan="2">Filtruj</Button>
+                <Button Grid.Row="0" Grid.Column="3" Grid.RowSpan="2" Command="{Binding FilterCommand}">Filtruj</Button>
             </Viewbox>
             <Viewbox StretchDirection="DownOnly" Stretch="Uniform" Grid.Row="0" Grid.Column="4" Grid.RowSpan="2">
-                    <Button Grid.Row="0" Grid.Column="4" Grid.RowSpan="2">Wyczyść</Button>
+                <Button Grid.Row="0" Grid.Column="4" Grid.RowSpan="2"  IsEnabled="{Binding IsClearEnabled}"  Command="{Binding ClearCommand}">Wyczyść</Button>
             </Viewbox>
             <Viewbox Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right">
                 <Label Grid.Row="1" Grid.Column="0" HorizontalContentAlignment="Right">Miasto:</Label>
@@ -100,7 +101,8 @@
             </Grid>
 
         <!--<Viewbox Grid.Row="2" Grid.RowSpan="5">-->
-            <ListView Grid.Row="2" Grid.RowSpan="5" ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding Students}" Height="auto" HorizontalContentAlignment="Stretch">
+            <ListView Grid.Row="2" Grid.RowSpan="5" ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding Students}" Height="auto" HorizontalContentAlignment="Stretch"
+                      SelectionChanged="{Binding SelectCommand}">
 
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
@@ -171,7 +173,15 @@
             <TextBox Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="4" MaxLines="1" TextWrapping="NoWrap" MaxLength="30" Text="{Binding Path=BirthDateControl}"></TextBox>
             <TextBox Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="4" MaxLines="1" TextWrapping="NoWrap" MaxLength="30" Text="{Binding Path=IndexControl}"></TextBox>
 
-
+            <Viewbox Grid.Row="6" Grid.Column="3">
+                <Button Grid.Row="6" Grid.Column="3" IsEnabled="{Binding IsNewEnabled}" Command="{Binding NewStudentCommand}">Nowy</Button>
+            </Viewbox>
+            <Viewbox Grid.Row="6" Grid.Column="4">
+                <Button Grid.Row="6" Grid.Column="4" IsEnabled="{Binding IsSaveEnabled}" Command="{Binding SaveStudentCommand}">Zapisz</Button>
+            </Viewbox>
+            <Viewbox Grid.Row="6" Grid.Column="5">
+                <Button Grid.Row="6" Grid.Column="5" Command="{Binding RemoveStudentCommand}">Usuń</Button>
+            </Viewbox>
         </Grid>
 
 
@@ -188,9 +198,6 @@
             <!--This is the hidden helper Field which is used to bind to, using the "Fill" column of the helper grid-->
             <Grid Grid.Column="1" x:Name="helperField"/>
         </Grid>
-        
-        
     </Grid>
-    
     
 </Window>

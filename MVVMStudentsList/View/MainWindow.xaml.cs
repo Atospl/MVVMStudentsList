@@ -28,5 +28,10 @@ namespace MVVMStudentsList.View
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<StorageContext, Configuration>());
             InitializeComponent();
         }
+
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
