@@ -14,7 +14,11 @@ namespace MVVMStudentsList.ViewModel
     {
         #region private members
 
-        private string groupControl;
+        private Group groupSelected;
+
+        private string placeSelected;
+
+        private Group groupControl;
 
         private string firstNameControl;
 
@@ -28,23 +32,35 @@ namespace MVVMStudentsList.ViewModel
 
         private static readonly ILog log = LogManager.GetLogger(typeof(MainWindowViewModel));
 
+        private bool isClearEnabled;
+
+        private bool isSaveEnabled;
+
+        private bool isNewEnabled;
+
+        private bool isRemoveEnabled;
+
         #endregion private members
 
 
         public Storage DB = new Storage();
         public List<Student> Students { get { return DB.GetStudents(); } }
-        public List<Group> Groups {  get { return DB.GetGroups(); } }
+        public List<Group> Groups { get { return DB.GetGroups(); } }
 
         #region ctor
         public MainWindowViewModel() : base()
         {
             XmlConfigurator.Configure(new System.IO.FileInfo("LogConfig.xml"));
             log.Info("MainWindowViewModel constructor");
+            placeSelected = "";
+            GroupSelected = new Group("");
 
             //Bools initialization
-            IsClearEnabled = true;
-            IsSaveEnabled = true;
+            IsClearEnabled = false;
+            IsSaveEnabled = false;
             IsNewEnabled = true;
+            IsRemoveEnabled = false;
+
 
             //binding commands to methods
             FilterCommand = new RelayCommand(new Action<object>(delegate (object obj) {
@@ -54,7 +70,7 @@ namespace MVVMStudentsList.ViewModel
                 ClearCommandMethod(obj as string);
             }));
             SelectCommand = new RelayCommand(new Action<object>(delegate (object obj) {
-                SelectCommandMethod(obj as string);
+                SelectCommandMethod(obj as Student);
             }));
             NewStudentCommand = new RelayCommand(new Action<object>(delegate (object obj) {
                 NewStudentCommandMethod(obj as string);
@@ -65,9 +81,10 @@ namespace MVVMStudentsList.ViewModel
             RemoveStudentCommand = new RelayCommand(new Action<object>(delegate (object obj) {
                 RemoveStudentCommandMethod(obj as string);
             }));
+            TextChangedCommand = new RelayCommand(new Action<object>(delegate (object obj) {
+                TextChangedCommandMethod(obj as string);
+            }));
 
-
-            GroupControl = "group";
             FirstNameControl = "fname";
             LastNameControl = "lname";
             BirthDateControl = "biday";
@@ -79,25 +96,52 @@ namespace MVVMStudentsList.ViewModel
         #endregion ctor
 
         #region properties
+        public Group GroupSelected {
+            get {
+                return this.groupSelected;
+            }
+            set {
+                groupSelected = value; if (placeSelected.Equals("") && value.Name.Equals("")) IsClearEnabled = false; else IsClearEnabled = true;
+            }
+        }
+        public string PlaceSelected {
+            get {
+                return placeSelected;
+            }
 
-        public string GroupControl { get { return groupControl; } set { groupControl = value; base.OnPropertyChanged("GroupControl"); } }
+            set {
+                if (value.Equals(""))
+                {
+                    if (GroupSelected.Name.Equals(""))
+                        IsClearEnabled = false;
+                }
+                else
+                    IsClearEnabled = true;
+                placeSelected = value;
+                base.OnPropertyChanged("PlaceSelected");
+            }
+        }
+        public Group GroupControl { get { return groupControl; } set { groupControl = value; base.OnPropertyChanged("GroupControl"); } }
         public string FirstNameControl { get { return firstNameControl; } set { firstNameControl = value; base.OnPropertyChanged("FirstNameControl"); } }
         public string LastNameControl { get { return lastNameControl; } set { lastNameControl = value; base.OnPropertyChanged("LastNameControl"); } }
         public string BirthPlaceControl { get { return birthPlaceControl; } set { birthPlaceControl = value; base.OnPropertyChanged("BirthPlaceControl"); } }
         public string BirthDateControl { get { return birthDateControl; } set { birthDateControl = value; base.OnPropertyChanged("BirthDateControl"); } }
         public string IndexControl { get { return indexControl; } set { indexControl = value; base.OnPropertyChanged("IndexControl"); } }
 
-        public bool IsClearEnabled { get; set; }
-        public bool IsSaveEnabled { get; set; }
-        public bool IsNewEnabled { get; set; }
+        public bool IsClearEnabled { get { return isClearEnabled; }
+            set { isClearEnabled = value; base.OnPropertyChanged("IsClearEnabled"); } }
+        public bool IsSaveEnabled { get { return isSaveEnabled; } set { isSaveEnabled = value; base.OnPropertyChanged("IsSaveEnabled"); } }
+        public bool IsNewEnabled { get { return isNewEnabled; } set { isNewEnabled = value; base.OnPropertyChanged("IsNewEnabled"); } }
+        public bool IsRemoveEnabled { get { return isRemoveEnabled; } set { isRemoveEnabled = value; base.OnPropertyChanged("IsRemoveEnabled"); } }
 
         #region commands
-        public ICommand FilterCommand  { get; private set; }
+        public ICommand FilterCommand { get; private set; }
         public ICommand ClearCommand { get; private set; }
         public ICommand SelectCommand { get; private set; }
         public ICommand NewStudentCommand { get; private set; }
         public ICommand SaveStudentCommand { get; private set; }
         public ICommand RemoveStudentCommand { get; private set; }
+        public ICommand TextChangedCommand { get; set; }
         #endregion commands
 
         #endregion properties
@@ -107,6 +151,7 @@ namespace MVVMStudentsList.ViewModel
         private void FilterCommandMethod(string s)
         {
             log.Info("FilterCmdLog");
+
         }
 
         private void ClearCommandMethod(string s)
@@ -114,9 +159,13 @@ namespace MVVMStudentsList.ViewModel
             log.Info("ClearCmdLog");
         }
 
-        private void SelectCommandMethod(string s)
+        private void SelectCommandMethod(Student s)
         {
             log.Info("SelectCmdLog");
+            Console.WriteLine(s.IndexNo);
+            Console.WriteLine(GroupSelected.Name);
+            Console.WriteLine(PlaceSelected);
+
         }
 
         private void NewStudentCommandMethod(string s)
@@ -132,6 +181,11 @@ namespace MVVMStudentsList.ViewModel
         private void RemoveStudentCommandMethod(string s)
         {
             log.Info("RemoveStudentCmdLog");
+        }
+
+        private void TextChangedCommandMethod(string s)
+        {
+            Console.WriteLine("TextChanged");
         }
         #endregion private methods
 

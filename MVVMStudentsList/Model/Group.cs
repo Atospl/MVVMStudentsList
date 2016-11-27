@@ -15,5 +15,15 @@ namespace MVVMStudentsList.Model
         [Timestamp]
         public byte[] Stamp { get; set; }
         public virtual List<Student> Students { get; set; } 
+
+        public Group(string name)
+        {
+            Name = name;
+        }
+
+        private Group()
+        {
+
+        }
     }
 }

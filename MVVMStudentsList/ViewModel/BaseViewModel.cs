@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MVVMStudentsList.ViewModel
 {
-    public class BaseViewModel
+    public class BaseViewModel : INotifyPropertyChanged
     {
         public BaseViewModel()
         {

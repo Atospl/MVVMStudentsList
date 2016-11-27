@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:local="clr-namespace:MVVMStudentsList.View"
         mc:Ignorable="d"
         xmlns:vm="clr-namespace:MVVMStudentsList.ViewModel"
@@ -84,9 +85,13 @@
             <Viewbox Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right">
                 <Label Grid.Row="0" Grid.Column="0" HorizontalContentAlignment="Right">Grupa:</Label>
             </Viewbox>
-            <ComboBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2">
-                    <ComboBoxItem>temp</ComboBoxItem>
-                </ComboBox>
+            <ComboBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" ItemsSource="{Binding Groups}" SelectedItem="{Binding GroupSelected}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Path=Name}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
             <Viewbox StretchDirection="DownOnly"  Stretch="Uniform" Grid.Row="0" Grid.Column="3" Grid.RowSpan="2">
                 <Button Grid.Row="0" Grid.Column="3" Grid.RowSpan="2" Command="{Binding FilterCommand}">Filtruj</Button>
             </Viewbox>
@@ -96,13 +101,20 @@
             <Viewbox Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right">
                 <Label Grid.Row="1" Grid.Column="0" HorizontalContentAlignment="Right">Miasto:</Label>
             </Viewbox>
-            <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" MaxLines="1" TextWrapping="NoWrap" MaxLength="30"></TextBox>
+            <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" MaxLines="1" TextWrapping="NoWrap" MaxLength="30" Text="{Binding PlaceSelected, UpdateSourceTrigger=PropertyChanged}"/>
 
-            </Grid>
+        </Grid>
 
-        <!--<Viewbox Grid.Row="2" Grid.RowSpan="5">-->
             <ListView Grid.Row="2" Grid.RowSpan="5" ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding Students}" Height="auto" HorizontalContentAlignment="Stretch"
-                      SelectionChanged="{Binding SelectCommand}">
+                      x:Name="StudList">
+
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding SelectCommand}"
+                             CommandParameter="{Binding ElementName=StudList, Path=SelectedItem}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+
 
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
@@ -128,7 +140,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <!--</Viewbox>-->
+
         <Grid Grid.Row="7" Grid.RowSpan="8">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -166,7 +178,13 @@
             <Viewbox  Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right">
                 <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" HorizontalContentAlignment="Right">Indeks:</Label>
             </Viewbox>
-            <ComboBox Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="4"></ComboBox>
+            <ComboBox Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="4"  ItemsSource="{Binding Groups}" SelectedItem="{Binding GroupControl}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Path=Name}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
             <TextBox Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="4" MaxLines="1" TextWrapping="NoWrap" MaxLength="30" Text="{Binding Path=FirstNameControl}"></TextBox>
             <TextBox Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="4" MaxLines="1" TextWrapping="NoWrap" MaxLength="30" Text="{Binding Path=LastNameControl}"></TextBox>
             <TextBox Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="4" MaxLines="1" TextWrapping="NoWrap" MaxLength="30" Text="{Binding Path=BirthPlaceControl}"></TextBox>
@@ -180,7 +198,7 @@
                 <Button Grid.Row="6" Grid.Column="4" IsEnabled="{Binding IsSaveEnabled}" Command="{Binding SaveStudentCommand}">Zapisz</Button>
             </Viewbox>
             <Viewbox Grid.Row="6" Grid.Column="5">
-                <Button Grid.Row="6" Grid.Column="5" Command="{Binding RemoveStudentCommand}">Usuń</Button>
+                <Button Grid.Row="6" Grid.Column="5" Command="{Binding RemoveStudentCommand}" IsEnabled="{Binding IsRemoveEnabled}">Usuń</Button>
             </Viewbox>
         </Grid>
 
