@@ -35,6 +35,7 @@ namespace MVVMStudentsList.ViewModel
         private SolidColorBrush borderColorDate;
         private SolidColorBrush borderColorIndex;
 
+        private List<Student> students;
 
         //private string birthPlaceControl;
 
@@ -54,7 +55,7 @@ namespace MVVMStudentsList.ViewModel
 
 
         public Storage DB = new Storage();
-        public List<Student> Students { get { return DB.GetStudents(); } }
+        public List<Student> Students { get { return students; } private set { students = value; base.OnPropertyChanged("Students"); } }
         public ObservableCollection<Group> Groups { get {
                 var groups = DB.GetGroups();
                 var oc = new ObservableCollection<Group>();
@@ -67,18 +68,11 @@ namespace MVVMStudentsList.ViewModel
         #region ctor
         public MainWindowViewModel() : base()
         {
-
+            Students = DB.GetStudents();
             XmlConfigurator.Configure(new System.IO.FileInfo("LogConfig.xml"));
             log.Info("MainWindowViewModel constructor");
             placeSelected = "";
-            try
-            {
-                GroupSelected = Groups.Where(group => group.Name.Equals("")).First();
-            }
-            catch(Exception ex)
-            {
-                log.Error("No null group!");
-            }
+            SetNullGroup();
             student = new Student("aa", "bb", "cc", 0, 0);
             birthDateControl = "1/1/2016";
 
@@ -249,14 +243,15 @@ namespace MVVMStudentsList.ViewModel
         private void FilterCommandMethod(string s)
         {
             log.Info("FilterCmdLog");
-            Console.WriteLine(Student.BirthDate);
-            Console.WriteLine(Student.FirstName);
-            Console.WriteLine(Student.LastName);
+            FilterStudents(this.GroupSelected, this.PlaceSelected);
         }
 
         private void ClearCommandMethod(string s)
         {
             log.Info("ClearCmdLog");
+            this.PlaceSelected = "";
+            SetNullGroup();
+            FilterStudents(GroupSelected, PlaceSelected);
         }
 
         private void SelectCommandMethod(Student s)
@@ -295,7 +290,48 @@ namespace MVVMStudentsList.ViewModel
         {
             Console.WriteLine(s);
         }
+
+        private void CheckSaveRemoveMethod()
+        {
+            if (IndexControl.Equals("") || Student.FirstName.Equals("") || Student.LastName.Equals("") || BirthDateControl.Equals("") || Student.BirthPlace.Equals(""))
+            {
+                IsSaveEnabled = false;
+                IsRemoveEnabled = false;
+            }
+            else
+            {
+                IsSaveEnabled = true;
+                IsRemoveEnabled = true;
+            }
+        }
+
+        private void FilterStudents(Group group, string place)
+        {
+            if(group.Name.Equals(""))
+            {
+                if (PlaceSelected.Equals(""))
+                {
+                    Students = DB.GetStudents();
+                    return;
+                }
+                Students = DB.GetStudents().Where(stud => stud.BirthPlace.ToUpper().Contains(place.ToUpper())).ToList();
+            }
+            Students = DB.GetStudents().Where(stud => stud.BirthPlace.ToUpper().Contains(place.ToUpper()) && stud.IDGroup == group.IDGroup).ToList();
+        }
+
+        private void SetNullGroup()
+        {
+            try
+            {
+                GroupSelected = Groups.Where(group => group.Name.Equals("")).First();
+            }
+            catch (Exception ex)
+            {
+                log.Error("No null group!");
+            }
+        }
         #endregion private methods
+
 
     }
 }
