@@ -71,7 +71,14 @@ namespace MVVMStudentsList.ViewModel
             XmlConfigurator.Configure(new System.IO.FileInfo("LogConfig.xml"));
             log.Info("MainWindowViewModel constructor");
             placeSelected = "";
-            //GroupSelected = Groups.First();
+            try
+            {
+                GroupSelected = Groups.Where(group => group.Name.Equals("")).First();
+            }
+            catch(Exception ex)
+            {
+                log.Error("No null group!");
+            }
             student = new Student("aa", "bb", "cc", 0, 0);
             birthDateControl = "1/1/2016";
 
@@ -152,7 +159,7 @@ namespace MVVMStudentsList.ViewModel
         public Group GroupControl {
             get {
                 return groupControl;
-                    }
+           }
             set {
                 groupControl = value;
                 base.OnPropertyChanged("GroupControl");
@@ -198,9 +205,12 @@ namespace MVVMStudentsList.ViewModel
                 if (!int.TryParse(value as string, out val))
                 {
                     BorderColorIndex = new SolidColorBrush(Colors.Red);
+                    indexControl = value;
+                    //IndexControl = "0";
                     return;
                 }
                 indexControl = value;
+                Student.IndexNo = val.ToString();
                 BorderColorIndex = SystemColors.WindowBrush;
                 base.OnPropertyChanged("IndexControl");
             }
@@ -257,7 +267,7 @@ namespace MVVMStudentsList.ViewModel
             Console.WriteLine(PlaceSelected);
             Student = s;
             GroupControl = Groups.Where(group => group.IDGroup == s.IDGroup).First();
-            
+            Console.WriteLine(GroupControl.Name);
             BirthDateControl = s.BirthDate.ToString("d/M/yyyy");
         }
 

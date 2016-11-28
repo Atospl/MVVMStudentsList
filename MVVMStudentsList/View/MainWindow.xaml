@@ -85,12 +85,12 @@
             <Viewbox Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right">
                 <Label Grid.Row="0" Grid.Column="0" HorizontalContentAlignment="Right">Grupa:</Label>
             </Viewbox>
-            <ComboBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" ItemsSource="{Binding Groups}" SelectedItem="{Binding GroupSelected}">
-                <ComboBox.ItemTemplate>
+            <ComboBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" ItemsSource="{Binding Groups}" SelectedItem="{Binding GroupSelected, Mode=TwoWay}" IsSynchronizedWithCurrentItem="True" DisplayMemberPath="Name">
+                <!--<ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Path=Name}"/>
                     </DataTemplate>
-                </ComboBox.ItemTemplate>
+                </ComboBox.ItemTemplate>-->
             </ComboBox>
             <Viewbox StretchDirection="DownOnly"  Stretch="Uniform" Grid.Row="0" Grid.Column="3" Grid.RowSpan="2">
                 <Button Grid.Row="0" Grid.Column="3" Grid.RowSpan="2" Command="{Binding FilterCommand}">Filtruj</Button>
@@ -189,7 +189,7 @@
             <TextBox Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="4" MaxLines="1" TextWrapping="NoWrap" MaxLength="30" Text="{Binding Student.LastName, UpdateSourceTrigger=PropertyChanged}"></TextBox>
             <TextBox Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="4" MaxLines="1" TextWrapping="NoWrap" MaxLength="30" Text="{Binding Student.BirthPlace, UpdateSourceTrigger=PropertyChanged}"></TextBox>
             <TextBox Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="4" MaxLines="1" TextWrapping="NoWrap" MaxLength="30" Text="{Binding BirthDateControl, UpdateSourceTrigger=PropertyChanged}" BorderBrush="{Binding BorderColorDate}"></TextBox>
-            <TextBox Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="4" MaxLines="1" TextWrapping="NoWrap" MaxLength="30" Text="{Binding Student.IndexNo, UpdateSourceTrigger=PropertyChanged}" BorderBrush="{Binding BorderColorIndex}"></TextBox>
+            <TextBox Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="4" MaxLines="1" TextWrapping="NoWrap" MaxLength="30" Text="{Binding IndexControl, UpdateSourceTrigger=PropertyChanged}" BorderBrush="{Binding BorderColorIndex}"></TextBox>
 
             <Viewbox Grid.Row="6" Grid.Column="3">
                 <Button Grid.Row="6" Grid.Column="3" IsEnabled="{Binding IsNewEnabled}" Command="{Binding NewStudentCommand}">Nowy</Button>
