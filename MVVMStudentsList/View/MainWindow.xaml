@@ -178,18 +178,18 @@
             <Viewbox  Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right">
                 <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" HorizontalContentAlignment="Right">Indeks:</Label>
             </Viewbox>
-            <ComboBox Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="4"  ItemsSource="{Binding Groups}" SelectedItem="{Binding GroupControl}">
+            <ComboBox Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="4"  ItemsSource="{Binding Groups}" SelectedItem="{Binding GroupControl, Mode=TwoWay}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Path=Name}"/>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <TextBox Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="4" MaxLines="1" TextWrapping="NoWrap" MaxLength="30" Text="{Binding Path=FirstNameControl}"></TextBox>
-            <TextBox Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="4" MaxLines="1" TextWrapping="NoWrap" MaxLength="30" Text="{Binding Path=LastNameControl}"></TextBox>
-            <TextBox Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="4" MaxLines="1" TextWrapping="NoWrap" MaxLength="30" Text="{Binding Path=BirthPlaceControl}"></TextBox>
-            <TextBox Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="4" MaxLines="1" TextWrapping="NoWrap" MaxLength="30" Text="{Binding Path=BirthDateControl}"></TextBox>
-            <TextBox Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="4" MaxLines="1" TextWrapping="NoWrap" MaxLength="30" Text="{Binding Path=IndexControl}"></TextBox>
+            <TextBox Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="4" MaxLines="1" TextWrapping="NoWrap" MaxLength="30" Text="{Binding Student.FirstName, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <TextBox Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="4" MaxLines="1" TextWrapping="NoWrap" MaxLength="30" Text="{Binding Student.LastName, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <TextBox Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="4" MaxLines="1" TextWrapping="NoWrap" MaxLength="30" Text="{Binding Student.BirthPlace, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <TextBox Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="4" MaxLines="1" TextWrapping="NoWrap" MaxLength="30" Text="{Binding BirthDateControl, UpdateSourceTrigger=PropertyChanged}" BorderBrush="{Binding BorderColorDate}"></TextBox>
+            <TextBox Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="4" MaxLines="1" TextWrapping="NoWrap" MaxLength="30" Text="{Binding Student.IndexNo, UpdateSourceTrigger=PropertyChanged}" BorderBrush="{Binding BorderColorIndex}"></TextBox>
 
             <Viewbox Grid.Row="6" Grid.Column="3">
                 <Button Grid.Row="6" Grid.Column="3" IsEnabled="{Binding IsNewEnabled}" Command="{Binding NewStudentCommand}">Nowy</Button>
