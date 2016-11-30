@@ -9,7 +9,7 @@ namespace MVVMStudentsList.Model
 {
     public class Storage
     { 
-        public List<Student> GetStudents()
+        public virtual List<Student> GetStudents()
         {
             using (var db = new StorageContext())
             {

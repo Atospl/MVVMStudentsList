@@ -14,7 +14,7 @@ using System.Windows.Media;
 
 namespace MVVMStudentsList.ViewModel
 {
-    class MainWindowViewModel : BaseViewModel
+    public class MainWindowViewModel : BaseViewModel
     {
         #region private members
 
@@ -81,6 +81,11 @@ namespace MVVMStudentsList.ViewModel
             SetNullGroup();
             student = new Student("aa", "bb", "cc", "0", DateTime.Now, 0);
             birthDateControl = "1/1/2016";
+            //PlaceSelected = "";
+            //FirstNameControl = "";
+            //LastNameControl = "";
+            //IndexControl = "";
+            //BirthPlaceControl = "";
             GroupControl = Groups.Where(group => group.Name.Equals("")).First();
             errorLabel = "";
             //Bools initialization
@@ -287,7 +292,7 @@ namespace MVVMStudentsList.ViewModel
             FilterStudents();
         }
 
-        private void ClearCommandMethod(string s)
+        public virtual void ClearCommandMethod(string s)
         {
             log.Info("ClearCmdLog");
             this.PlaceSelected = "";
@@ -429,7 +434,7 @@ namespace MVVMStudentsList.ViewModel
             Students = DB.GetStudents().Where(stud => stud.BirthPlace.ToUpper().Contains(place.ToUpper()) && stud.IDGroup == group.IDGroup).ToList();
         }
 
-        private void SetNullGroup()
+        public virtual void SetNullGroup()
         {
             try
             {
@@ -441,7 +446,7 @@ namespace MVVMStudentsList.ViewModel
             }
         }
 
-        private void SetUnselected()
+        public virtual void SetUnselected()
         {
             FirstNameControl = "";
             LastNameControl = "";
@@ -497,7 +502,7 @@ namespace MVVMStudentsList.ViewModel
         }
 
         //Make sure all data is already validated!
-        private void SetStudentsFields()
+        public virtual void SetStudentsFields()
         {
             Student.FirstName = FirstNameControl;
             Student.LastName = LastNameControl;
@@ -507,7 +512,7 @@ namespace MVVMStudentsList.ViewModel
             Student.BirthDate = DateTime.ParseExact(BirthDateControl, "d/M/yyyy", CultureInfo.CurrentCulture);
         }
 
-        private bool FieldsOK(string mode)
+        public bool FieldsOK(string mode)
         {
             //check values
             if (GroupControl.Name.Equals("") || FirstNameControl.Equals("") || LastNameControl.Equals(""))
