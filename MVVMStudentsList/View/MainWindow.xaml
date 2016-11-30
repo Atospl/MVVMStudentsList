@@ -185,12 +185,16 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <TextBox Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="4" MaxLines="1" TextWrapping="NoWrap" MaxLength="30" Text="{Binding Student.FirstName, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-            <TextBox Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="4" MaxLines="1" TextWrapping="NoWrap" MaxLength="30" Text="{Binding Student.LastName, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-            <TextBox Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="4" MaxLines="1" TextWrapping="NoWrap" MaxLength="30" Text="{Binding Student.BirthPlace, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <TextBox Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="4" MaxLines="1" TextWrapping="NoWrap" MaxLength="30" Text="{Binding FirstNameControl, UpdateSourceTrigger=PropertyChanged}" BorderBrush="{Binding BorderColorFirstName}"></TextBox>
+            <TextBox Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="4" MaxLines="1" TextWrapping="NoWrap" MaxLength="30" Text="{Binding LastNameControl, UpdateSourceTrigger=PropertyChanged}"  BorderBrush="{Binding BorderColorLastName}"></TextBox>
+            <TextBox Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="4" MaxLines="1" TextWrapping="NoWrap" MaxLength="30" Text="{Binding BirthPlaceControl, UpdateSourceTrigger=PropertyChanged}"></TextBox>
             <TextBox Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="4" MaxLines="1" TextWrapping="NoWrap" MaxLength="30" Text="{Binding BirthDateControl, UpdateSourceTrigger=PropertyChanged}" BorderBrush="{Binding BorderColorDate}"></TextBox>
             <TextBox Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="4" MaxLines="1" TextWrapping="NoWrap" MaxLength="30" Text="{Binding IndexControl, UpdateSourceTrigger=PropertyChanged}" BorderBrush="{Binding BorderColorIndex}"></TextBox>
 
+            <Viewbox Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3">
+                <Label Content="{Binding ErrorLabel}" Foreground="Red"/>
+            </Viewbox>
+            
             <Viewbox Grid.Row="6" Grid.Column="3">
                 <Button Grid.Row="6" Grid.Column="3" IsEnabled="{Binding IsNewEnabled}" Command="{Binding NewStudentCommand}">Nowy</Button>
             </Viewbox>

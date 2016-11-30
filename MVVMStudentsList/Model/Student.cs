@@ -34,14 +34,14 @@ namespace MVVMStudentsList.Model
 
         [ForeignKey("IDGroup")]
         public virtual Group Group { get; set; }
-        public Student(string firstName, string lastName, string birthPlace, int indexNr, int groupID)
+        public Student(string firstName, string lastName, string birthPlace, string indexNr, DateTime birthDate, int groupID)
         {
             FirstName = firstName;
             LastName = lastName;
             BirthPlace = birthPlace;
-            IndexNo = indexNr.ToString();
+            IndexNo = indexNr;
             IDGroup = groupID;
-            BirthDate = new DateTime();
+            BirthDate = birthDate;
         }
 
         private Student()

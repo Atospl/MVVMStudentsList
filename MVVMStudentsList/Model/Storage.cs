@@ -24,7 +24,7 @@ namespace MVVMStudentsList.Model
             using (var db = new StorageContext())
                 return db.Groups.ToList();
         }
-        //void CreateStudent(string firstName, string lastName, string indexNo, int groupId)
+        //void CreateStudent(string firstName, string lastName, string birthPlace, string indexNo, int groupId)
         //{
         //    using (var db = new StorageContext())
         //    {
@@ -33,6 +33,7 @@ namespace MVVMStudentsList.Model
         //        {
         //            FirstName = firstName,
         //            LastName = lastName,
+        //            BirthPlace = birthPlace,
         //            IndexNo = indexNo,
         //            Group = group
         //        };
@@ -40,30 +41,40 @@ namespace MVVMStudentsList.Model
         //        db.SaveChanges();
         //    }
         //}
-        //void UpdateStudent(Student st)
-        //{
-        //    using (var db = new StorageContext())
-        //    {
-        //        var original = db.Students.Find(st.StudentId);
-        //        if (original != null)
-        //        {
-        //            original.FirstName = st.FirstName;
-        //            original.LastName = st.LastName;
-        //            db.SaveChanges();
-        //        }
-        //    }
-        //}
-        //void DeleteStudent(Student st)
-        //{
-        //    using (var db = new StorageContext())
-        //    {
-        //        var original = db.Students.Find(st.StudentId);
-        //        if (original != null)
-        //        {
-        //            db.Students.Remove(original);
-        //            db.SaveChanges();
-        //        }
-        //    }
-        //}
+
+        public void CreateStudent(Student s)
+        {
+            using (var db = new StorageContext())
+            {
+                var group = db.Groups.Find(s.IDGroup);
+                db.Students.Add(s);
+                db.SaveChanges();
+            }
+        }
+        public void UpdateStudent(Student st)
+        {
+            using (var db = new StorageContext())
+            {
+                var original = db.Students.Find(st.IDStudent);
+                if (original != null)
+                {
+                    original.FirstName = st.FirstName;
+                    original.LastName = st.LastName;
+                    db.SaveChanges();
+                }
+            }
+        }
+        public void DeleteStudent(Student st)
+        {
+            using (var db = new StorageContext())
+            {
+                var original = db.Students.Find(st.IDStudent);
+                if (original != null)
+                {
+                    db.Students.Remove(original);
+                    db.SaveChanges();
+                }
+            }
+        }
     }
 }
