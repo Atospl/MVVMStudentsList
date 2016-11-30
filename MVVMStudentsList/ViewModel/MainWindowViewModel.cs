@@ -34,7 +34,7 @@ namespace MVVMStudentsList.ViewModel
 
         private SolidColorBrush borderColorDate;
         private SolidColorBrush borderColorIndex;
-        private string errorLabel; 
+        private string errorLabel;
 
         private List<Student> students;
 
@@ -58,15 +58,16 @@ namespace MVVMStudentsList.ViewModel
         public Storage DB = new Storage();
 
         public List<Student> Students { get { return students; } private set { students = value; base.OnPropertyChanged("Students"); } }
-        public ObservableCollection<Group> Groups {
-            get {
-                var groups = DB.GetGroups();
-                var oc = new ObservableCollection<Group>();
-                foreach (var group in groups)
-                    oc.Add(group);
-                return oc;
-            }
-        }
+        public List<Group> Groups { get; set; }
+        //public ObservableCollection<Group> Groups {
+        //    get {
+        //        var groups = DB.GetGroups();
+        //        var oc = new ObservableCollection<Group>();
+        //        foreach (var group in groups)
+        //            oc.Add(group);
+        //        return oc;
+        //    }
+        //}
 
         #region ctor
         public MainWindowViewModel() : base()
@@ -75,11 +76,13 @@ namespace MVVMStudentsList.ViewModel
             XmlConfigurator.Configure(new System.IO.FileInfo("LogConfig.xml"));
             log.Info("MainWindowViewModel constructor");
             placeSelected = "";
+            Groups = DB.GetGroups();
+            Groups.Add(new Group(""));
             SetNullGroup();
             student = new Student("aa", "bb", "cc", "0", DateTime.Now, 0);
             birthDateControl = "1/1/2016";
             GroupControl = Groups.Where(group => group.Name.Equals("")).First();
-            errorLabel = "NONONO";
+            errorLabel = "";
             //Bools initialization
             IsClearEnabled = false;
             IsSaveEnabled = false;
@@ -281,7 +284,7 @@ namespace MVVMStudentsList.ViewModel
         private void FilterCommandMethod(string s)
         {
             log.Info("FilterCmdLog");
-            FilterStudents(this.GroupSelected, this.PlaceSelected);
+            FilterStudents();
         }
 
         private void ClearCommandMethod(string s)
@@ -289,11 +292,13 @@ namespace MVVMStudentsList.ViewModel
             log.Info("ClearCmdLog");
             this.PlaceSelected = "";
             SetNullGroup();
-            FilterStudents(GroupSelected, PlaceSelected);
+            FilterStudents();
         }
 
         private void SelectCommandMethod(Student s)
         {
+            if (s == null)
+                return;
             log.Info("SelectCmdLog");
             Console.WriteLine(s.IndexNo);
             //Console.WriteLine(GroupControl.Name);
@@ -315,95 +320,71 @@ namespace MVVMStudentsList.ViewModel
         private void NewStudentCommandMethod(string s)
         {
             log.Info("NewStudentCmdLog");
-            //check values
-            if (GroupControl.Name.Equals("") || FirstNameControl.Equals("") || LastNameControl.Equals(""))
+            if (!FieldsOK("new"))
             {
-                log.Error("Not all values inserted!");
-                //TODO add popup
+                FilterStudents();
                 return;
             }
-            //check index value
-            else
-            {
-                try
-                {
-                    int val = int.Parse(IndexControl);
-                    //check if index exists in db
-                    var students = DB.GetStudents();
-                    var indexes = from student in students select student.IndexNo;
-                    if (indexes.Contains(IndexControl))
-                    {
-                        log.Error("Index already exists!");
-                        //TODO add popup
-
-                        return;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    log.Error("Invalid index value");
-                    return;
-                }
-            }
-            //check group
-            if (GroupControl.Name.Equals(""))
-            {
-                log.Error("Invalid group");
-                return;
-            }
-            //check date
+            Student = new Student(FirstNameControl,
+                            LastNameControl,
+                            BirthPlaceControl,
+                            IndexControl,
+                            DateTime.ParseExact(BirthDateControl, "d/M/yyyy", System.Globalization.CultureInfo.InvariantCulture),
+                            GroupControl.IDGroup);
             try
             {
-                DateTime BirthDate = DateTime.ParseExact(BirthDateControl, "d/M/yyyy", System.Globalization.CultureInfo.InvariantCulture);
-                if (BirthDate > DateTime.Now)
-                {
-                    log.Error("Invalid date");
-                    return;
-                }
-                Student = new Student(FirstNameControl, LastNameControl, BirthPlaceControl, IndexControl, BirthDate, GroupControl.IDGroup);
-                try
-                {
-                    DB.CreateStudent(Student);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-                SetUnselected();
-                UpdateStudentsList();
+                DB.CreateStudent(Student);
             }
             catch (Exception ex)
             {
-                log.Error("Invalid date");
-                return;
+                Console.WriteLine(ex.Message);
             }
+            SetUnselected();
+            FilterStudents();
         }
+
 
         private void SaveStudentCommandMethod(string s)
         {
+            if (!FieldsOK("save"))
+                return;
+            SetStudentsFields();
             log.Info("SaveStudentCmdLog");
             //check for external modifications
             Student dbStudent = DB.GetStudents().Where(stud => stud.IDStudent == Student.IDStudent).First();
-            if(!dbStudent.Stamp.Equals(Student.Stamp))
+            if (!dbStudent.Stamp.SequenceEqual(Student.Stamp))
             {
                 string errorMsg = "Student has been externally modified";
                 log.Error(errorMsg);
                 ErrorLabel = errorMsg;
-                UpdateStudentsList();
+                FilterStudents();
                 SetUnselected();
                 return;
             }
             else
             {
-
+                DB.UpdateStudent(Student);
             }
+            FilterStudents();
             SetUnselected();
         }
 
         private void RemoveStudentCommandMethod(string s)
         {
             log.Info("RemoveStudentCmdLog");
-
+            //check for external modifications
+            Student dbStudent = DB.GetStudents().Where(stud => stud.IDStudent == Student.IDStudent).First();
+            if (!dbStudent.Stamp.SequenceEqual(Student.Stamp))
+            {
+                string errorMsg = "Student has been externally modified";
+                log.Error(errorMsg);
+                ErrorLabel = errorMsg;
+                FilterStudents();
+                SetUnselected();
+                return;
+            }
+            DB.DeleteStudent(Student);
+            FilterStudents();
             SetUnselected();
         }
 
@@ -431,8 +412,10 @@ namespace MVVMStudentsList.ViewModel
             }
         }
 
-        private void FilterStudents(Group group, string place)
+        private void FilterStudents()
         {
+            Group group = GroupSelected;
+            string place = PlaceSelected;
             if (group.Name.Equals(""))
             {
                 if (PlaceSelected.Equals(""))
@@ -507,13 +490,81 @@ namespace MVVMStudentsList.ViewModel
                         IsSaveEnabled = false;
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     IsNewEnabled = true;
                 }
         }
+
+        //Make sure all data is already validated!
+        private void SetStudentsFields()
+        {
+            Student.FirstName = FirstNameControl;
+            Student.LastName = LastNameControl;
+            Student.IDGroup = GroupControl.IDGroup;
+            Student.IndexNo = IndexControl;
+            Student.BirthPlace = BirthPlaceControl;
+            Student.BirthDate = DateTime.ParseExact(BirthDateControl, "d/M/yyyy", CultureInfo.CurrentCulture);
+        }
+
+        private bool FieldsOK(string mode)
+        {
+            //check values
+            if (GroupControl.Name.Equals("") || FirstNameControl.Equals("") || LastNameControl.Equals(""))
+            {
+                log.Error("Not all values inserted!");
+                ErrorLabel = "Not all values inserted!";
+                //TODO add popup
+                return false;
+            }
+            //check index value
+            try
+            {
+                int val = int.Parse(IndexControl);
+                //check if index exists in db
+                var students = DB.GetStudents();
+                var indexes = from student in students where student.IDStudent != Student.IDStudent select student.IndexNo;
+                if (indexes.Contains(IndexControl))
+                {
+                    log.Error("Index already exists!");
+                    //TODO add popup
+                    ErrorLabel = "Index already exists!";
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Invalid index value");
+                ErrorLabel = "Invalid index value";
+                return false;
+            }
+            //check group
+            if (GroupControl.Name.Equals(""))
+            {
+                log.Error("Invalid group");
+                ErrorLabel = "Invalid group";
+                return false;
+            }
+            //check date
+            try
+            {
+                DateTime BirthDate = DateTime.ParseExact(BirthDateControl, "d/M/yyyy", System.Globalization.CultureInfo.InvariantCulture);
+                if (BirthDate > DateTime.Now)
+                {
+                    log.Error("Invalid date");
+                    ErrorLabel = "Invalid date";
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Invalid date");
+                ErrorLabel = "Invalid date";
+                return false;
+            }
+            ErrorLabel = "";
+            return true;
+        }
         #endregion private methods
-
-
     }
 }

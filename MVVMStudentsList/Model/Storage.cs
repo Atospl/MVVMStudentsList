@@ -60,6 +60,10 @@ namespace MVVMStudentsList.Model
                 {
                     original.FirstName = st.FirstName;
                     original.LastName = st.LastName;
+                    original.IDGroup = st.IDGroup;
+                    original.BirthDate = st.BirthDate;
+                    original.BirthPlace = st.BirthPlace;
+                    original.IndexNo = st.IndexNo;
                     db.SaveChanges();
                 }
             }
